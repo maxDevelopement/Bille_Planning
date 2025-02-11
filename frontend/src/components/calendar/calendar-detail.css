@@ -1,0 +1,87 @@
+#CalendarDetails{
+    z-index: 10000;
+    position: absolute;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+    background-color: #37474f ;
+    color: white;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+#title{
+    width: min-content;
+    text-align: center;
+    color: white;
+}
+.title1{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+    padding: 2%;
+    margin: 2%;
+    color: #ffab00;
+    border: 2px solid #ffab00;
+    border-radius: 50px; 
+    font-size: large;
+}
+.title1 > p{
+    margin: 0;
+}
+#generalInfos{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.stickerBlue{
+    color: #37474f;
+    background-color: #64dd17;
+    width: max-content;
+    padding-left: 3%;
+    padding-right: 3%;
+    padding-top: 1.5%;
+    padding-bottom: 1.5%;
+    font-size: large;
+    border-radius: 60px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: nowrap;
+    margin: 0;
+}
+.sticker{
+    color: #37474f;
+    background-color: #ffab00;
+    width: max-content;
+    padding-left: 3%;
+    padding-right: 3%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    font-size: large;
+    border-radius: 60px;
+    border: none;
+    display: flex;
+    justify-content: center;
+    flex-wrap: nowrap;
+    margin: 0;
+}
+.stickerUpdate{
+    background-color: aliceblue;
+}
+.field{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+}
+select:disabled {/* Changer la couleur du texte */
+    color: #37474f;
+    opacity: 1; /* Évite que le `disabled` diminue l'opacité du texte */
+}

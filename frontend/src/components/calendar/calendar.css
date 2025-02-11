@@ -1,0 +1,92 @@
+#calendarBtContainer{
+    margin-top: 2.5%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+#monthLabel{
+    display: flex;
+    justify-content: center;
+    width: min-content;
+    padding: 5px;
+    text-align: center;
+    padding: 5px;
+    width: 40%;
+}
+#calendarContainer{
+    margin: 2.5%;
+    text-align: center;
+}
+.row{
+    flex-wrap: nowrap;
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+}
+.rowDate{
+   flex: 1;
+   border: 1px solid white;
+   width: auto;
+   margin: 0;
+   aspect-ratio: 1 / 1;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   font-size: large;
+   transition-duration: 250ms;
+   border-radius: 9%;
+   position: relative;
+}
+.needSomeOne{
+    background-color: crimson;
+    position: absolute;
+    top: 7%;
+    right: 7%;
+    width: 25%;
+    height: 25%;
+    border-radius: 5px;
+    font-size: xx-small;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+}
+.dayRow{
+    display: flex;
+    justify-content: space-between;
+}
+.dayName{
+    font-size: xx-small;
+    flex: 1;
+    margin: none;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid white;
+}
+.closedDate{
+    background-color:  #4a148c;
+    color: white;
+}
+.normalDate{
+    background-color: #00c853;
+    color: white;
+}
+.reunionDate{
+    background-color: crimson;
+    color: white;
+}
+@media (min-width: 425px) {
+    .row{
+        margin-left: 10%;
+        margin-right: 10%;
+    }
+}
+@media (min-width: 726px) {
+    .row{
+        margin-left: 15%;
+        margin-right: 15%;
+    }
+}
