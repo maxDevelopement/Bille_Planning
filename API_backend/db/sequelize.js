@@ -14,7 +14,7 @@ const sequelize = new Sequelize(
                 rejectUnauthorized: false // Utilisez cela avec prudence, préférablement dans un environnement de développement
             }
         },
-        logging: false //console.log 
+        logging: false ////console.log 
     }
 )
 module.exports = { sequelize }

@@ -139,14 +139,14 @@ export default {
         const updateGeneralInfo = async (idShow) => {
             if(!idShow) return
             const newData = await getShowByIdRequest(idShow)
-            console.log("GENERALINFO : ", newData)
+            //console.log("GENERALINFO : ", newData)
             if(newData.msg === 'success' && newData.data){
-                console.log("SUCESSSSSSSS")
+                //console.log("SUCESSSSSSSS")
                 const updatedData = newData.data
                 setGeneralInfoData(updatedData)          
                 await nextTick()
             }else{                
-                console.log("FAILLLLLLLLLLLLLL")
+                //console.log("FAILLLLLLLLLLLLLL")
             }
             
         }
@@ -156,7 +156,7 @@ export default {
                 type: type,
                 idUser: checkUserConnexion().idUser
             }
-            console.log("dataToDelete : ", dataToDelete)
+            //console.log("dataToDelete : ", dataToDelete)
         }
         const updateOpeningAndClosureUsers = async (idShow) => {
             isUserSubscribedToOpening.value = false

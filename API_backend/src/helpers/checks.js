@@ -1,7 +1,7 @@
 import { getShowObject } from './getters.js'
 
 function checkUserConnexion(){
-    ////console.log("sessionstorage user : ", JSON.parse(sessionStorage.getItem('user')))
+    //////console.log("sessionstorage user : ", JSON.parse(sessionStorage.getItem('user')))
     return sessionStorage.getItem('user') ? JSON.parse(sessionStorage.getItem('user')) : null;
 }
 

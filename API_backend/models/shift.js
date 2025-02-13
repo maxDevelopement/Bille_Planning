@@ -13,7 +13,7 @@ const Shift = sequelize.define('shift', {
         allowNull: false,
         references: {
             model: 'LaBilleShow',
-            key: 'idShow'
+            key: 'laBilleShowId'
         }
     },
     type: {

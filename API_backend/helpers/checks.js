@@ -10,12 +10,12 @@ async function checkIfShiftIsFull(idShift){
     if(allUsersOfShift.length >= shift.maxUsers){
         return true
     }
-    //console.log("checkIfShiftIsFull :false")
+    ////console.log("checkIfShiftIsFull :false")
     return false
 }
 
 async function checkIfUserSubscribedToThisShift(idUser, idShift){
-    //console.log("checkIfUserSubscribedToThisShift : ", idUser, ", ", idShift)
+    ////console.log("checkIfUserSubscribedToThisShift : ", idUser, ", ", idShift)
     try{
         const usersLooked = await ShiftAsUser.findOne({ where : {
             [Op.and]: [
@@ -25,7 +25,7 @@ async function checkIfUserSubscribedToThisShift(idUser, idShift){
         }})
         return usersLooked ? true : null
     }catch(error){
-        console.log(error)
+        //console.log(error)
         return null
     }
 }

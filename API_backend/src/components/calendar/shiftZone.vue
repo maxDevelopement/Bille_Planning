@@ -56,7 +56,7 @@ export default {
             try {
                 const userList = await getUserList(); // Appel de votre méthode asynchrone
                 return userList;
-                console.log("allUsers : ", allUsers.value)
+                //console.log("allUsers : ", allUsers.value)
             } catch (error) {
                 console.error('Erreur lors du chargement des utilisateurs:', error);
             }
@@ -64,12 +64,12 @@ export default {
 
         watch(() => props.shiftInfos, (newValue) => {
             shifts.value = newValue
-            console.log("watch 2 shiftzone : ", shifts.value)
+            //console.log("watch 2 shiftzone : ", shifts.value)
         })
         onMounted(async() => {
             shifts.value = props.shiftInfos      
             allUsers.value = await getAllUsers() 
-            console.log("watch 1 shiftzone : ", shifts.value)
+            //console.log("watch 1 shiftzone : ", shifts.value)
         })
         const handleSubcsibeToShift = async (shift) => {
             const idShift = shift.idShift
@@ -81,7 +81,7 @@ export default {
                 type: 'normal'
             }
             const insertUser = await subscribeUserToShiftRequest(dataToSend)
-            console.log("insertUser : ", insertUser)
+            //console.log("insertUser : ", insertUser)
             if(insertUser === 'insertion_ok'){
                 shift.shiftUsers ? shift.shiftUsers.push({firstname: myFirstname, idUser: myId}) : shift.shiftUsers = [{firstname: myFirstname, idUser: myId}]          
                 displayPopupMsg(`Tu es inscrit pour le shift de ${shift.startTime} `)
@@ -98,9 +98,9 @@ export default {
                 idShift: idShift,
                 type: 'normal'
             }
-            console.log("front remove user : ", dataToSend)
+            //console.log("front remove user : ", dataToSend)
             const deleteUser = await removeUserFromShiftRequest(dataToSend)
-            console.log(deleteUser)
+            //console.log(deleteUser)
             if(deleteUser === 'delete_ok'){
                 shift.shiftUsers = shift.shiftUsers.filter(user => user.idUser !== myId)
                 displayPopupMsg(`Tu es désinscrit du shift`)
@@ -124,7 +124,7 @@ export default {
         }
 
         const handleOpenSubscribeSomebody = () => {
-            console.log("handleOpenSubscribeSomebody")
+            //console.log("handleOpenSubscribeSomebody")
             isSubscribeSomebodyOpen.value = !isSubscribeSomebodyOpen.value
         }
         const subscribeSomebody = async (shift, idUser, userFirstname) => {
@@ -134,8 +134,8 @@ export default {
                 type: 'normal'
             }
             const insertUser = await subscribeUserToShiftRequest(dataToSend)
-            console.log("insertUser : ", insertUser)
-            console.log("shifts : ", shift)
+            //console.log("insertUser : ", insertUser)
+            //console.log("shifts : ", shift)
             if(insertUser === 'insertion_ok'){
                 shift.shiftUsers.push({firstname: userFirstname, idUser: idUser })     
                 displayPopupMsg(`Le bénévol est inscrit`)

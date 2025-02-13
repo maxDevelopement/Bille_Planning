@@ -2,7 +2,7 @@ const { checkExistingTemplate, setShowAndShifts, getFormatedDate, getAllDatesYea
 
 module.exports = (app) => {
     app.post('/api/setYearTemplate', async function (req, res) {
-        console.log(req.body)
+        //console.log(req.body)
         const year = req.body.year
         const closedDates = req.body.closedDates
         const template = req.body.template
@@ -14,13 +14,13 @@ module.exports = (app) => {
 
         // ---------------- prepare data of the year according to template -------------------------------
         const allDatesOfYear = await getAllDatesYear(year)
-        //console.log("allDatesOfYear : ", allDatesOfYear)
+        ////console.log("allDatesOfYear : ", allDatesOfYear)
         let dataPrepared = []
         // création des templates de shows/shifts pour chaque date de l'année selon le template d'ouverture par semaine donné
         for await (const date of allDatesOfYear){ 
             dataPrepared.push(await setDayTemplate(template, getDayName(date), getFormatedDate(date)))
         }
-        //console.log("dataPrepared : ", dataPrepared)      
+        ////console.log("dataPrepared : ", dataPrepared)      
         // ---------------- insert data of the year according to template -------------------------------
         for await (const {show, shifts} of dataPrepared){
             await setShowAndShifts(show, shifts)

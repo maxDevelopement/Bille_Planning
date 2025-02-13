@@ -4,6 +4,136 @@ const Shift = require('../models/shift')
 const User = require('../models/user')
 const ShiftAsUser = require('../models/shiftAsUser')
 const ExtraTime = require('../models/extraTime')
+
+// -----------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------- get show infos ---------------------------------------------------
+
+async function getAllInfosOfShow(idShow){
+    //console.log("IDSHIW ::: ", idShow)
+    try{
+        const showInfos = await LaBilleShow.findOne({
+            where: {laBilleShowId: idShow },
+            include: [{
+                model: Shift,
+                as: 'shifts',
+                required: false,
+                include: [{
+                    model: User,
+                    as: 'shiftUsers',
+                    required: false,
+                    through: {
+                        model: ShiftAsUser,
+                        //attributes: [] // pour ne pas inclure les attributs de la table pivot
+                    }
+                }],
+                //order: [['startTime', 'ASC']]
+            }],
+            order: [[{ model: Shift, as: 'shifts' }, 'indexForType', 'ASC']] // Mettre l'ordre ici
+        });
+        //console.log("showINFOS ::: ", showInfos.dataValues)
+        const formatedShifts = showInfos.dataValues.shifts.map((shi) => {
+            // formatage des données du user
+            const userShift = shi.dataValues.shiftUsers.map((us) => {
+                 return{
+                    idSubscribe: us.dataValues.shiftAsUser.dataValues.idShiftAsUser,
+                    idUser: us.dataValues.idUser,
+                    username: us.dataValues.firstname
+                }
+            })
+            // formatage des données du shift
+            return {
+                idShift: shi.dataValues.idShift,
+                fkLaBilleShow: shi.dataValues.fkLaBilleShow,
+                type: shi.dataValues.type,
+                maxUsers: shi.dataValues.maxUsers,
+                startTime: shi.dataValues.startTime,
+                endTime: shi.dataValues.endTime,
+                indexForType: shi.dataValues.indexForType,
+                users: userShift
+            }
+        })
+        const formattedShowData = {
+            laBilleShowId: showInfos.dataValues.laBilleShowId,
+            date: showInfos.dataValues.date,
+            status: showInfos.dataValues.status,
+            shifts: formatedShifts
+        };
+        //console.log("showData2 :::: ", formattedShowData);
+        return formattedShowData;
+    }catch(error){
+        //console.log(error)
+    }
+}
+
+// -----------------------------------------------------------------------------------------------------------------
+async function getAllShowAndShifts(idShow){
+    //console.log("idShow : ", idShow)
+    try{
+        // get show and shifts
+        const allShowsInfos = await LaBilleShow.findOne({
+            where: {laBilleShowId: idShow },
+            include: [{
+                model:Shift ,
+                as: 'shifts'
+            }],
+        });
+        ////console.log("allShowsInfos : ", allShowsInfos.dataValues)
+        let allShifts = []
+        if(!allShowsInfos.dataValues.shifts) return allShowsInfos.dataValues
+        //allShowsInfos.dataValues.shifts.map((shi) => {
+        for await (shi of allShowsInfos.dataValues.shifts){
+            const shift = shi.dataValues
+            const users = await getUsersSubscribedToShift(shift.idShift)
+            const result = {...shift, users: users}
+            return result
+        }
+        //console.log("allShowsInfos : ", allShowsInfos.dataValues)
+        allShowsInfos.dataValues.shifts.map((shi) =>{
+            //console.log("shi: ", shi)
+        })
+        return allShowsInfos || null
+    }catch(error){
+        //console.log(error)
+    }
+}
+// return the "shiftAsUser" linked to a shift (for delete)
+async function getUsersSubscribedToShift(idShift){
+    try{
+        // récupération des relation
+        const users = await ShiftAsUser.findAll({
+            where: { idShift: idShift }
+        })
+        //console.log("USERS : ", users)
+        if(!users || users.length == 0) return []
+        let result = []
+        // recuperation du firstname et formatage data
+        for await (userData of users){ 
+            const user = userData.dataValues
+            //console.log("user : ", user)
+            result.push({
+                idSubscribtion: user.idShiftAsUser,
+                idUser: user.idUser,
+                username: await getUserName(user.idUser)
+            })
+            //console.log("result : ", result)
+        }
+        //console.log("res : ", result)
+        return result
+    }catch(error){
+        return null
+    }
+}
+async function getUserName(idUser){
+    if(!idUser) return null
+    //console.log("idUser : ", idUser)
+    const name = await User.findOne({where: {idUser: idUser}})
+    //console.log("name : ", name)
+    return name ? name.dataValues : null
+}
+// ----------------------------------------------------------------------------------------------------------------
+// -------------------------------------- other -------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------
+/*
 async function getAllShowAndShifts(month, year){
     const allShowsFromMonth = await LaBilleShow.findAll({
         where: {
@@ -30,7 +160,7 @@ async function getAllShowAndShifts(month, year){
         order: [[{ model: Shift, as: 'shifts' }, 'indexForType', 'ASC']] // Mettre l'ordre ici
     });
     return allShowsFromMonth || null
-}
+}*/
 function getToday(){
     return new Date().toISOString()
 }
@@ -56,13 +186,14 @@ async function getAllShiftsOfUser(idUser){
         order: [['date', 'ASC']] 
     });
     const dataFiltred = allShiftsOfUser.filter((show) => { return show.shifts.length > 0 })
-    //console.log("allShiftsOfUser : ", dataFiltred)
+    //////console.log("allShiftsOfUser : ", dataFiltred)
     return dataFiltred 
 }
+/*
 async function getCountOfShiftsOfUserForSpecificMonth(userId, month, year){
-    try{
-        console.log("month : ", month)
-        console.log("yeaar : ", year)
+    try{*/
+        ////console.log("month : ", month)
+        ////console.log("yeaar : ", year)
         /*const allShowsWhereUserIsShifted = await LaBilleShow.findAll({
             where: { [Op.and]: [
                 Sequelize.where(Sequelize.fn('MONTH', Sequelize.col('laBilleShow.Date')), month), // Correcte avec le champ 'Date'
@@ -83,6 +214,7 @@ async function getCountOfShiftsOfUserForSpecificMonth(userId, month, year){
                 }],
             }],
         })*/
+       /*
         const allShowsWhereUserIsShifted = await LaBilleShow.findAll({
             where: { [Op.and]: [
                 Sequelize.where(Sequelize.fn('MONTH', Sequelize.col('laBilleShow.Date')), month), // Correcte avec le champ 'Date'
@@ -103,24 +235,25 @@ async function getCountOfShiftsOfUserForSpecificMonth(userId, month, year){
                 }],
             }],
         })
-        console.log("allShowsWhereUserIsShifted : ", allShowsWhereUserIsShifted)
+        ////console.log("allShowsWhereUserIsShifted : ", allShowsWhereUserIsShifted)
         let count = 0
         if(!allShowsWhereUserIsShifted || allShowsWhereUserIsShifted.length === 0){
-            console.log("no shift subscribed")
+            ////console.log("no shift subscribed")
             return count
         }
-        //console.log("all shows where user is subscribed : ", allShowsWhereUserIsShifted.map(sh => sh.dataValues))
+        //////console.log("all shows where user is subscribed : ", allShowsWhereUserIsShifted.map(sh => sh.dataValues))
         allShowsWhereUserIsShifted.forEach(show => {           
-            if(show.shifts.length > 0) { console.log("show.shifts.length PLUS GRAND QUE 0 : ", show.shifts.length) }
+            if(show.shifts.length > 0) { ////console.log("show.shifts.length PLUS GRAND QUE 0 : ", show.shifts.length) }
             count += show.shifts.length
         })
-        console.log("result : ", count)
+        ////console.log("result : ", count)
         return count //allShiftsOfUser ? allShiftsOfUser.length : 0
     }catch(error){
-        console.log(error)
+        ////console.log(error)
         return 0
     }
 }
+    */
 // this get function take the date and return the value of show if found
 // return null if not found
 async function getShowByDate(date){
@@ -129,7 +262,7 @@ async function getShowByDate(date){
         const existingShow = await LaBilleShow.findOne({where: { date: dateLooked}})
         return existingShow ? existingShow : null
     }catch(error){
-        console.log("erreur getShowByDate: ", error)
+        ////console.log("erreur getShowByDate: ", error)
         return null
     }   
 }
@@ -138,25 +271,40 @@ async function getShowById(idShow){
         const existingShow = await LaBilleShow.findOne({where: { laBilleShowId: idShow}})
         return existingShow ? existingShow.dataValues : null
     }catch(error){
-        console.log("erreur getShowByDate: ", error)
+        ////console.log("erreur getShowByDate: ", error)
         return null
     }   
 }
-
-async function getAllShiftsOfAshow(fkShow){
-    try{   
-        const allShiftOfAshow = await Shift.findAll({
+/*
+const allShiftOfAshow = await Shift.findAll({
             where: {fkLaBilleShow: fkShow},
             include: [{
                 model: User,
-                as: 'shiftUsers',
-                required: false,
+                as:  'shiftUsers', //'userShifts',
                 through: {
                     model: ShiftAsUser,
-                    attributes: [] // pour ne pas inclure les attributs de la table pivot
                 }
             }],
         })
+*/
+async function getAllShiftsOfAshow(fkShow){
+    try{   
+        //console.log("fkshow : ", fkShow)
+        const allShiftOfAshow = await Shift.findAll({
+            where: { fkLaBilleShow: fkShow },
+            include: [
+                {
+                    model: User,
+                    as: 'shiftUsers',
+                    through: {
+                        model: ShiftAsUser,
+                        //attributes: ['idShiftAsUser'], // Récupère uniquement l'id de la relation
+                    },
+                    attributes: ['idUser', 'firstname', 'status'], // Choisissez les champs utilisateurs à récupérer
+                },
+            ],
+        });
+        //console.log("111 allShiftOfAshow : ", allShiftOfAshow[0].dataValues)
         if(!allShiftOfAshow) return []
         if(allShiftOfAshow){
             const formatedShifts = allShiftOfAshow.map(shift => shift.dataValues);
@@ -164,11 +312,10 @@ async function getAllShiftsOfAshow(fkShow){
         }
         return null
     }catch(error){
-        console.log("error : ", error)
+        //console.log("error : ", error)
         return null
     }
 }
-
 async function getDateOfShift(fkShow){
     try{
         const dateOfShift = await LaBilleShow.findOne(
@@ -179,7 +326,7 @@ async function getDateOfShift(fkShow){
         )
         return dateOfShift ? dateOfShift.dataValues : null
     }catch(error){
-        console.log("error getDateOfShift : ", error)
+        ////console.log("error getDateOfShift : ", error)
         return null
     }
 }
@@ -215,7 +362,7 @@ async function getAllRecordedSoiree(){
         }) : null;
         return filtredResult || null;
     }catch(error){
-        console.log("erreur : ", error)
+        ////console.log("erreur : ", error)
         return null
     }   
 }
@@ -267,7 +414,7 @@ async function getShiftSubscribtion(idUser, idShift){
         })
         return shiftSubscribtion ? shiftSubscribtion : null
     }catch(error){
-        console.log("error : ", error)
+        ////console.log("error : ", error)
         return null
     }
 }
@@ -277,7 +424,7 @@ async function getShiftById(idShift){
         const shiftAsUserToReturn = shiftToReturn ? await ShiftAsUser.findAll({ where: { idShift: idShift } }) : null
         return { shift: shiftToReturn, shiftAsUser: shiftAsUserToReturn}
     }catch(error){
-        console.log(error)
+        ////console.log(error)
         return null
     }
 }
@@ -286,21 +433,11 @@ async function getUserById(idUser){
         const userConcerned = await User.findOne({ where: {idUser: idUser}})
         return userConcerned ? userConcerned.dataValues :null
     }catch(error){
-        console.log(error)
+        ////console.log(error)
         return null
     }
 }
-// return the "shiftAsUser" linked to a shift (for delete)
-async function getUsersSubscribedToShift(idShift){
-    try{
-        const users = await ShiftAsUser.findAll({
-            where: { idShift: idShift }
-        })
-        return users
-    }catch(error){
-        return null
-    }
-}
+
 async function getPreviousStatusOfShow(idShow){
     try{
         const previousStatus = await getShowById(idShow)
@@ -321,17 +458,17 @@ async function getUsersOfOpeningAndClosure(idShow){
         }))
         return usersFirstname || 'no-data'
     }catch(error){
-        console.log("erreur req : ", error)
+        ////console.log("erreur req : ", error)
         return 'error'
     }
 }
 async function getExtraTimesOfShow(idShow){
     try{
         const timesFounded = await ExtraTime.findAll({where: {fkLaBilleShow: idShow}})
-        console.log(timesFounded)
+        ////console.log(timesFounded)
         return (!timesFounded || timesFounded.length === 0) ? [] : timesFounded.dataValues   
     }catch(error){
-        console.log(error)
+        ////console.log(error)
         return null
     }
 }
@@ -347,7 +484,7 @@ async function getExtraTimeByUserAndTypeAndShow(idUser, type, idShow){
         })
         return concernedTime ? concernedTime : null
     }catch(error){
-        console.log(error)
+        ////console.log(error)
         return null
     }
 }
@@ -366,9 +503,10 @@ module.exports = {
     getUsersSubscribedToShift,
     getPreviousStatusOfShow,
     getShiftById,
-    getCountOfShiftsOfUserForSpecificMonth,
+//    getCountOfShiftsOfUserForSpecificMonth,
     getUserById,
     getUsersOfOpeningAndClosure,
     getExtraTimeByUserAndTypeAndShow,
-    getExtraTimesOfShow
+    getExtraTimesOfShow,
+    getAllInfosOfShow
 }

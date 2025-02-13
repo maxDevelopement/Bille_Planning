@@ -123,7 +123,7 @@
                     entreeShifts.value = dataSet.value.shifts.filter(shift => shift.type === 'entree')
                     parkingShifts.value = dataSet.value.shifts.filter(shift => shift.type === 'parking')                    
                 }
-                console.log("barShifts.value : ", barShifts.value)
+                //console.log("barShifts.value : ", barShifts.value)
             })
             watch(() => props.dataOfShow, (newVal) => {
                 dataSet.value = newVal;
@@ -184,8 +184,8 @@
             }
             // update show
             const handleUpdateInformations = async() => {
-                console.log("UPDATE SHOW : ", dataSet.value)
-                console.log("id : ", dataSet.value.laBilleShowId)
+                //console.log("UPDATE SHOW : ", dataSet.value)
+                //console.log("id : ", dataSet.value.laBilleShowId)
                 //send all if réunion because delete & insert
                 const dataToSend = dataSet.value.status === 'réunion' ? dataSet.value : {
                     laBilleShowId: dataSet.value.laBilleShowId,
@@ -195,13 +195,13 @@
                     showResponsable: dataSet.value.showResponsable,
                     notes: dataSet.value.notes,
                 }
-                console.log("DATATOSEND : ", dataToSend)
+                //console.log("DATATOSEND : ", dataToSend)
                 const sendModifs = await updateShowInformationsRequest(dataToSend)
-                console.log("sendModifs : ", sendModifs)
+                //console.log("sendModifs : ", sendModifs)
                 if(sendModifs === 'success'){ 
                     emit('modifsInformationsDone') 
                     displayPopupMsg(`informations de la soirée modifées !`)
-                    console.log("closeShowForm1")
+                    //console.log("closeShowForm1")
                     emit('closeShowForm')
                 }
                 else if (sendModifs === 'error_system'){
@@ -215,14 +215,14 @@
                     entree: entreeShifts.value,
                     parking: parkingShifts.value 
                 }
-                console.log("update shifts : ", dataToUpdate)
+                //console.log("update shifts : ", dataToUpdate)
                 const insertion = await updateShowShiftsRequest(dataToUpdate)
                 if(insertion && insertion == `error`){
                     //apparition popup erreur 
                 }else if(insertion && insertion == `success`){
                     emit('modifsInformationsDone') 
                     displayPopupMsg(`informations de la soirée modifées !`)
-                    console.log("closeShowForm1")
+                    //console.log("closeShowForm1")
                     emit('closeShowForm')
                 }   
             }
@@ -257,7 +257,7 @@
                 emitCloseAddNewShowForm()
             }
             const emitCloseAddNewShowForm = () => {
-                console.log("emoit child !")
+                //console.log("emoit child !")
                 emit('closeAddNewShowForm')
             }
             return {

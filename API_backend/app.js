@@ -12,7 +12,7 @@ app.use(bodyParser.json())
 
 app.use(express.static(path.join(__dirname, 'public')))
 app.get(('/', (req, res) => {
-    //console.log("request")
+    ////console.log("request")
     res.sendFile('index.html', { root: path.join(__dirname, 'public')});
 }))
 
@@ -26,8 +26,8 @@ require('./routes/saveShow')(app)
 require('./routes/getAllRecordedSoirees')(app)
 require('./routes/getUserList')(app)
 require('./routes/createAshowAndShifts')(app)
-require('./routes/subscribeUserToShift')(app)
-require('./routes/removeUserFromShift')(app)
+//require('./routes/subscribeUserToShift')(app)
+//require('./routes/removeUserFromShift')(app)
 require('./routes/updateShowInformations')(app)
 require('./routes/getAllShiftsOfAshow')(app)
 require('./routes/updateShowShifts')(app)
@@ -40,6 +40,8 @@ require('./routes/getShowById')(app)
 require('./routes2/get-datesAndStatusOfRecordShowOfGivenMonth')(app)
 require('./routes2/set-year-template')(app)
 require('./routes2/get-dateInfos')(app)
+require('./routes2/set-user-to-shift-insert')(app)
+require('./routes2/set-user-to-shift-delete')(app)
 // erreur 404
 app.use(({res}) => {
     const message = 'Erreur 404'
@@ -50,4 +52,4 @@ app.use(({res}) => {
 initDb()
 
 // démarrage server
-app.listen(port, () => console.log(`server demarré sur le port ${port}`))
+app.listen(port, () => {console.log(`server demarré sur le port ${port}`)})

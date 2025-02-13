@@ -25,8 +25,8 @@
             const router = useRouter()
             const activeLink = ref('')
             const isBenevoleSup = (status) => { 
-                //console.log("status : ", status)
-                //console.log("status to show agendaProg : ", status === 'benevole_sup')
+                ////console.log("status : ", status)
+                ////console.log("status to show agendaProg : ", status === 'benevole_sup')
                 return status === 'benevole_sup'
             }
             const goToProfil = () => {

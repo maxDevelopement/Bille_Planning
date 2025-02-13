@@ -6,7 +6,8 @@ const User = require('../models/user')
 const ExtraTime = require('../models/extraTime')
 
 async function init(){
-    try{
+    try{        
+        /*********** Show <=> Shift ******************/
         LaBilleShow.hasMany(Shift, {
             as: 'shifts',
             foreignKey: 'fkLaBilleShow',
@@ -17,13 +18,12 @@ async function init(){
             foreignKey: 'fkLaBilleShow',
             as: 'show'
         })
+        /*********** shift <=> user ******************/
         Shift.belongsToMany(User, { 
             through: ShiftAsUser,
             foreignKey: 'idShift',
             otherKey: 'idUser',
-            as: 'shiftUsers',
-            onDelete: 'CASCADE',  
-            hooks: true 
+            as: 'shiftUsers'
         })
         User.belongsToMany(Shift, { 
             through: ShiftAsUser,
@@ -31,6 +31,7 @@ async function init(){
             otherKey: 'idShift',
             as: 'userShifts'
         })
+        /*********** User <=> extraTime ******************/
         User.belongsToMany(LaBilleShow, { 
             through: ExtraTime,
             foreignKey: 'fkUser',
@@ -44,7 +45,7 @@ async function init(){
             as: 'openingClosures'
         })
         await sequelize.authenticate()
-        console.log('connexion to db successfull')
+        //console.log('connexion to db successfull')
     } catch(error){
         console.error(`unable to connect to db : ${error}`)
     }

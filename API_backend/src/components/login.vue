@@ -28,11 +28,11 @@
             const handleLoginSubmit = async() => {
                 const login = $('#loginInput').val()
                 const password = $('#passwordInput').val()
-                //console.log("data : ", login, ", ", password)
+                ////console.log("data : ", login, ", ", password)
                 const loginReq = await loginRequest({ login: login, password: password })
-                //console.log(loginReq)
+                ////console.log(loginReq)
                 if(loginReq.msg ==='success_login'){
-                    //console.log(loginReq.data)
+                    ////console.log(loginReq.data)
                     setUserConnexion(loginReq.data)
                     router.push('/calendar')
                 }else{

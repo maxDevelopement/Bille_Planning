@@ -50,17 +50,17 @@ export default {
                 showResponsable: idUser
             }
             const checkInsert = await updateShowInformationsRequest(dataToSend)
-            console.log("resopnse modifee : ", checkInsert)
+            //console.log("resopnse modifee : ", checkInsert)
             const msg = checkInsert === 'success' ? 'Tu es bien inscrit comme résponsable de soirée. Merci à toi :)' : 'Oups il y a eu un probème, réessaies plus tard'
             if(checkInsert === 'success') showResponsable.value = checkUserConnexion().firstname
             window.alert(msg)
         }
         const setShowResponsable = async (showResponsableId) => {
-                console.log("showResponsableId : ", showResponsableId)
+                //console.log("showResponsableId : ", showResponsableId)
                 const checkUser = showResponsableId ? await getFirstnameOfUser(showResponsableId) : null;
-                console.log("answer : ", checkUser)
+                //console.log("answer : ", checkUser)
                 showResponsable.value = (checkUser && checkUser.msg === 'success') ? checkUser.firstname : null
-                console.log("showResp :::: ", showResponsable.value)
+                //console.log("showResp :::: ", showResponsable.value)
                 allUsers.value = (dataToShow.value.status === 'soirée' || dataToShow.value.status === 'normale') ? await getUserList() : null
         }
         watch(() => props.dataInfos, (newValue) => {
@@ -75,8 +75,8 @@ export default {
                     const startTime = barData[0].startTime
                     const endTime = barData[barData.length-1].endTime
                     horaires.value = `${startTime} - ${endTime}`
-                    console.log("newval : ", newValue.showResponsable)       
-                    console.log("newval showresp : ", newValue.showResponsable)  
+                    //console.log("newval : ", newValue.showResponsable)       
+                    //console.log("newval showresp : ", newValue.showResponsable)  
                     break
                 } 
                 case 'réunion' : {

@@ -96,7 +96,7 @@ export default {
 
         watch(() => props.shiftInfos, (newValue) => {
             showObject.value = newValue;
-            console.log("props shiftInfo : ", showObject.value)
+            //console.log("props shiftInfo : ", showObject.value)
             setDataToDisplay(showObject.value.shifts);
         }, { immediate: true });
 

@@ -34,13 +34,13 @@
                 isAddNewShowFormOpen.value = true
             }
             const handleCloseForm = () => {                
-                console.log("emit parent reception !")
+                //console.log("emit parent reception !")
                 isAddNewShowFormOpen.value = false
             }
             onMounted(async()=>{
                 const allShows = await getAllRecordedSoirees()
                 allRecordedShow.value = allShows.data
-                console.log("allRecordedShow.value : ", allShows.data)
+                //console.log("allRecordedShow.value : ", allShows.data)
             })
             return {
                 isAddNewShowFormOpen,

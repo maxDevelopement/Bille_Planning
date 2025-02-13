@@ -60,7 +60,7 @@
             }
             onMounted(async() => {     
                 //await nextTick();
-                console.log("shiftsFormGestion props reception : ", props.propsShifts)
+                //console.log("shiftsFormGestion props reception : ", props.propsShifts)
                 if(Array.isArray(props.propsShifts)){
                     shifts.value = JSON.parse(JSON.stringify(props.propsShifts)) // Copie des valeurs si newShifts est un tableau     
                 }

@@ -87,7 +87,7 @@ export default {
         const parkingData = ref([])
 
         onMounted(async () => { 
-            //console.log("props shiftZone : ", props.shiftInfos)
+            ////console.log("props shiftZone : ", props.shiftInfos)
          })
 
         const isItMe = (idSelected) => {
@@ -110,7 +110,7 @@ export default {
         }*/
         watch(() => props.shiftInfos, (newValue) => {
             showObject.value = newValue 
-            console.log("shifts shiftzone : ", showObject.value)
+            //console.log("shifts shiftzone : ", showObject.value)
             //setDataToDisplay(showObject.value.shifts)
         }, { immediate: true });
         
@@ -135,7 +135,7 @@ export default {
                 return shiftedUser
             });
         });
-        console.log("shiftedUsers : ", shiftedUsers)
+        //console.log("shiftedUsers : ", shiftedUsers)
         const handleSubcsibeToShift = async (index) => {
             const user = checkUserConnexion()
             const userData = {
@@ -144,13 +144,13 @@ export default {
                 type: setStatusCheckboxOfShift(index)
             }
             
-            //console.log("data avant click : ", showObject.value.shifts)
+            ////console.log("data avant click : ", showObject.value.shifts)
             const req = await showObject.value.setUserToShift(index, userData) // envoie requete srv
             if(req === 'success'){
                 //setDataToDisplay(showObject.value.shifts)
                 //isUserSubscribed.value = true;
             }else if (req === 'fail'){
-                //console.log("ERROR");
+                ////console.log("ERROR");
             }
         }
         const setStatusCheckboxOfShift = (index) => {

@@ -1,29 +1,32 @@
 const ShiftAsUser = require('../models/shiftAsUser')
-const { getConcernedShift } = require('../helpers/getters')
+const { getConcernedShift, getUserById } = require('../helpers/getters')
 // endpoint de création d'une nouvelle soirée
 // supprime toutes les données liée à la date
 module.exports = (app) => {
     app.post('/api/subscribeUserToShift', async (req, res) => {  
-        console.log("input subscribeUserToShift : ", req.body)
         const idShiftConcerned =req.body.idShift
         const idUserConcerned = req.body.idUser
-        const typeConcerned = req.body.type
+        const typeConcerned = 'normal'
         const concernedShift = await getConcernedShift(idShiftConcerned)
-        console.log("shift max : ", concernedShift.maxUsers)
         const userAlreadyPresent = concernedShift.shiftUsers.filter(user => user.idUser === idUserConcerned) 
-        console.log("isUserPresent ? ", userAlreadyPresent)
         if(userAlreadyPresent && userAlreadyPresent.length > 0){
-            console.log("user deja inscrit ! ")
-            return res.status(500).send({msg:'userAlreadyPresent'})
+            //console.log("user deja inscrit ! ")
+            return res.status(500).send({msg:'fail'})
         }
         //check if shift isFull
         if(concernedShift.shiftUsers && concernedShift.maxUsers <= concernedShift.shiftUsers.length){
-            console.log("shift plein")
-            return res.status(500).send({msg: 'shiftIsFull'})
+            //console.log("shift plein")
+            return res.status(500).send({msg: 'fail'})
         }
-        console.log("insertion de luser okay !")
         const insertionOfUser = await insertUserInShift(idUserConcerned, idShiftConcerned, typeConcerned)
-        return insertionOfUser ? res.status(200).send({msg: 'insertion_ok'}) : res.status(500).send({msg: 'unknown_error'})
+        if(!insertionOfUser) return res.status(500).send({msg: 'unknown_error'})
+        const dataToReturn = {
+            idSubscribe: insertionOfUser.dataValues.idShiftAsUser,
+            idUser: insertionOfUser.dataValues.idUser,
+            username: (await getUserById(idUserConcerned)).firstname
+        }
+        console.log(dataToReturn)
+        return res.status(200).send({msg: 'success', data: dataToReturn}) 
     })
 }
 
@@ -32,11 +35,11 @@ async function insertUserInShift(idUser, idShift, type){
         const insertion = await ShiftAsUser.create({
             idUser: idUser,
             idShift: idShift,
-            type, type
+            type: type
         })
         return insertion || null
     }catch(error){
-        console.log(error)
+        //console.log(error)
         return null
     }
 }

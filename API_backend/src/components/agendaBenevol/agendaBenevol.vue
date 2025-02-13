@@ -44,11 +44,11 @@
             onMounted(async() => { 
                 try{
                     const userStats = (await getStatisticsOfUsersRequest()).data
-                    console.log("userStats : ", userStats)
+                    //console.log("userStats : ", userStats)
                     statisticsOfUsers.value = userStats
-                    console.log("statisticsOfUsers : ", statisticsOfUsers.value)
+                    //console.log("statisticsOfUsers : ", statisticsOfUsers.value)
                 }catch(error){
-                    console.log(error)
+                    //console.log(error)
                 }
             })
             const isItInt = (varToCheck) => {
@@ -62,7 +62,7 @@
                 }else if( nbrToCheck && nbrToCheck % 2 !== 0){
                     classToReturn = 'weekTwo'
                 }
-                console.log("classToReturn : ", classToReturn)
+                //console.log("classToReturn : ", classToReturn)
                 return classToReturn
             }
             return {

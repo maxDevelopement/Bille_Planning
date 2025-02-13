@@ -63,7 +63,7 @@
             }
             onMounted(async () => {
                 const myAllShifts = await getAllShiftsOfUser(checkUserConnexion().idUser)
-                //console.log("all shifts : ", myAllShifts.data)
+                ////console.log("all shifts : ", myAllShifts.data)
                 allShiftsSubscribed.value = myAllShifts.data
             })
             return {

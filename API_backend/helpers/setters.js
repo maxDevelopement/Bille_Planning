@@ -22,11 +22,11 @@ async function setShow(data){
         var month = dateToModify.toLocaleString("default", { month: "2-digit" })
         var day = dateToModify.toLocaleString("default", { day: "2-digit" })
         var formattedDate = year + "-" + month + "-" + day;
-        console.log(formattedDate);
+        //console.log(formattedDate);
         newShow.dataValues.date = formattedDate
         return newShow ? newShow.dataValues : null
     }catch(error){
-        console.log(error)
+        //console.log(error)
         if (error instanceof Sequelize.UniqueConstraintError) {
             const msg = 'unicity_error'
             return res.status(400).send(msg)
@@ -48,12 +48,12 @@ async function findOrCreateShow(data){
             }
         })
         if(!created){
-            console.log("Enregistrement déjà existant : ", newShow);
+            //console.log("Enregistrement déjà existant : ", newShow);
             return newShow ? newShow.dataValues  : null //res.status(400).json({ message: 'unicity_error', existingRecord: newShow });
         }
         return newShow ? newShow.dataValues : null
     }catch(error){
-        console.log(error)
+        //console.log(error)
         return null
     }
 }
@@ -79,7 +79,7 @@ async function setShiftToShow(shiftArray, idShow){
         }
         return null
     }catch(error){
-        console.log(error)
+        //console.log(error)
         return null
     }
 }
@@ -93,12 +93,12 @@ async function setUserToShift(idUser, idShift, type){
         })
         return newUserInShift.dataValues
     }catch(error){
-        console.log("erreur : ", error)
+        //console.log("erreur : ", error)
         return false
     }
 }
 async function destroyAllShiftsAndUsersOfAShow(idShow){
-    console.log("idSHow : ", idShow)
+    //console.log("idSHow : ", idShow)
     try{
         const concernedShifts = await getAllShiftsAndUsersOfAshow(idShow)
         if (!concernedShifts.length) {
@@ -115,7 +115,7 @@ async function destroyAllShiftsAndUsersOfAShow(idShow){
         }
         return 'ok'
     }catch(error){
-        console.log("erreur : ", error)
+        //console.log("erreur : ", error)
         return null
     }
 }
@@ -142,9 +142,9 @@ function returnBasicTemplate(idShow){
 async function setBasicalShiftTemplateToShow(idShow){
     try{
         const shiftsTemplate = returnBasicTemplate(idShow)
-        console.log("setBasicalShiftTemplateToShow")
-        console.log("shiftsTemplate : ", shiftsTemplate)
-        console.log("idShow : ", idShow)
+        //console.log("setBasicalShiftTemplateToShow")
+        //console.log("shiftsTemplate : ", shiftsTemplate)
+        //console.log("idShow : ", idShow)
         for (const shift of shiftsTemplate) {
             const data = await Shift.create({
                 fkLaBilleShow: idShow,
@@ -154,7 +154,7 @@ async function setBasicalShiftTemplateToShow(idShow){
                 endTime: shift.endTime,
                 indexForType: shift.indexForType
             })
-            console.log("data : ", data)
+            //console.log("data : ", data)
         }
     }catch(error){
         return null
@@ -202,7 +202,7 @@ async function setNewShow(data){
             return null
         }
     }catch(error){
-        console.log(error)
+        //console.log(error)
         return null
     }
 }
@@ -231,7 +231,7 @@ async function setNewShiftsOfNewShow(shiftArray, idShow){
         }));
         return newShiftInsertion
     }catch(error){
-        console.log(error)
+        //console.log(error)
         return null
     }
 }

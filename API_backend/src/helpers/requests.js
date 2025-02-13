@@ -13,14 +13,14 @@ async function loginRequest(data){
         const response = await request.json()
         return response
     }catch(error){
-        //console.log(error)
+        ////console.log(error)
         return null
     }
 }
 
 async function getAllShowAndShiftsRequest(month, year){
     try{
-        //console.log("GO REQUEST : ", month, ", ", year)
+        ////console.log("GO REQUEST : ", month, ", ", year)
         const url = `http://3001/api/getAllShowAndShifts?month=${month}&year=${year}` 
         const request = await fetch(url, {
             method: 'get',
@@ -29,10 +29,10 @@ async function getAllShowAndShiftsRequest(month, year){
             }
         })
         const response = await request.json()
-        console.log("response : ", response)
+        //console.log("response : ", response)
         return response
     }catch(error){
-        //console.log(error)
+        ////console.log(error)
         return null
     }
 }
@@ -58,7 +58,7 @@ async function addUserToShiftRequest(data){
         const response = await request.text()
         return response
     }catch(error){
-        //console.log(error)
+        ////console.log(error)
         return null
     } 
 }
@@ -75,7 +75,7 @@ async function createAshowAndShifts(data){
         const response = await request.json()
         return response
     }catch(error){
-        //console.log(error)
+        ////console.log(error)
         return null
     } 
 }
@@ -92,13 +92,13 @@ async function getAllShiftsOfUser(idUser){
         const response = await request.json()
         return response
     }catch(error){
-        //console.log("error getAllShiftsOfUser : ", error)
+        ////console.log("error getAllShiftsOfUser : ", error)
     }
 }
 
 async function saveShow(data){
     try{
-        console.log("SAVESHOW : ", data)
+        //console.log("SAVESHOW : ", data)
         const url = `http://3001/api/saveShow` 
         const request = await fetch(url, {
             method: 'POST',
@@ -108,16 +108,16 @@ async function saveShow(data){
             body: JSON.stringify(data)
         })
         const response = await request.json()
-        console.log("result saveShow : ", response)
+        //console.log("result saveShow : ", response)
         return response.data
     }catch(error){
-        console.log(error)
+        //console.log(error)
         return null
     } 
 }
 
 async function getAllRecordedSoirees(){
-    console.log("input req getAllRecordedSoirees")
+    //console.log("input req getAllRecordedSoirees")
     try{
         const url = `http://3001/api/getAllRecordedSoirees` 
         const request = await fetch(url, {
@@ -129,7 +129,7 @@ async function getAllRecordedSoirees(){
         const response = await request.json()
         return response
     }catch(error){
-        console.log(error)
+        //console.log(error)
         return null
     } 
 }
@@ -145,7 +145,7 @@ async function getUserList(){
         const response = await request.json()
         return response.data
     }catch(error){
-        console.log(error)
+        //console.log(error)
         return null
     }  
 }
@@ -162,14 +162,14 @@ async function subscribeUserToShiftRequest(data){
         const response = await request.json()
         return response ? response.msg : null
     }catch(error){
-        console.log(error)
+        //console.log(error)
         return null
     } 
 }
 
 async function removeUserFromShiftRequest(data){
     try{
-        console.log("removeUserFromShiftRequest 1")
+        //console.log("removeUserFromShiftRequest 1")
         const url = `http://3001/api/removeUserFromShift` 
         const request = await fetch(url, {
             method: 'POST',
@@ -181,7 +181,7 @@ async function removeUserFromShiftRequest(data){
         const response = await request.json()
         return response ? response.msg : null
     }catch(error){
-        console.log(error)
+        //console.log(error)
         return null
     } 
 }
@@ -198,13 +198,13 @@ async function updateShowInformationsRequest(data){
         const response = await request.json()
         return response ? response.msg : null
     }catch(error){
-        console.log(error)
+        //console.log(error)
         return null
     }
 }
 async function updateShowShiftsRequest(dataToUpdate){
     try{
-        console.log("updateShowShiftsRequest !")
+        //console.log("updateShowShiftsRequest !")
         const url = `http://3001/api/updateShowShifts` 
         const request = await fetch(url, {
             method: 'POST',
@@ -214,7 +214,7 @@ async function updateShowShiftsRequest(dataToUpdate){
             body: JSON.stringify(dataToUpdate)
         })
         const response = await request.json()
-        console.log("response : ", response.msg)
+        //console.log("response : ", response.msg)
         return response ? response.msg : null
     }catch(error){
 
@@ -233,7 +233,7 @@ async function getAllShiftsOfAshowRequest(idShow){
         const response = await request.json()
         return response ? response : null
     }catch(error){
-        console.log(error)
+        //console.log(error)
         return null
     }
 }
@@ -249,7 +249,7 @@ async function getStatisticsOfUsersRequest(){
         const response = await request.json()
         return response ? response : null
     }catch(error){
-        console.log(error)
+        //console.log(error)
         return null
     }
 }
@@ -265,7 +265,7 @@ async function getFirstnameOfUser(idUser){
         const response = await request.json()
         return response ? response : null
     }catch(error){
-        console.log(error)
+        //console.log(error)
         return null
     }
 }
@@ -281,12 +281,12 @@ async function getUsersOfOpeningAndClosureOfShow(idShow){
         const response = await request.json()
         return response ? response : null
     }catch(error){
-        console.log(error)
+        //console.log(error)
         return null
     }
 }
 async function subscribeUserToExtraTime(idShow, idUser, type){
-    console.log("idShow, idUser, type : ", idShow, idUser, type)
+    //console.log("idShow, idUser, type : ", idShow, idUser, type)
     if(!idShow || !idUser || !type)  return null
     try{
         const url = `http://3001/api/subscribeUserToExtraTime?idShow=${idShow}&idUser=${idUser}&type=${type}` 
@@ -299,7 +299,7 @@ async function subscribeUserToExtraTime(idShow, idUser, type){
         const response = await request.json()
         return response ? response : null
     }catch(error){
-        console.log(error)
+        //console.log(error)
         return null
     }
 }
@@ -317,7 +317,7 @@ async function getShowByIdRequest(idShow){
         const response = await request.json()
         return response ? response : null
     }catch(error){
-        console.log(error)
+        //console.log(error)
         return null
     }
 }

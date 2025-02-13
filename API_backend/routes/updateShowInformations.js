@@ -4,7 +4,7 @@ const { getShowById, getPreviousStatusOfShow } = require('../helpers/getters')
 module.exports = (app) => {
     app.post('/api/updateShowInformations', async (req, res) => {  
         const dataRecieved = req.body
-        console.log("updateShowInformations : ", dataRecieved)
+        //console.log("updateShowInformations : ", dataRecieved)
         if(!dataRecieved.laBilleShowId){
             return res.status(400).send("error_user")
         }
@@ -33,7 +33,7 @@ module.exports = (app) => {
         // fermé ==> soirée       
         // création de shifts basique
         if (isPreviousClosed && isNewStatusNormalOrSoiree) {
-            console.log("de fermé à soirée ou normal")
+            //console.log("de fermé à soirée ou normal")
            setBasicalShiftTemplateToShow(dataRecieved.laBilleShowId)
         }
         // normale ==> fermé
@@ -57,11 +57,11 @@ module.exports = (app) => {
             //else if(dataRecieved.showResponsable && dataRecieved.showResponsable !== 'none') actualData.showResponsable = dataRecieved.showResponsable
             actualData.showResponsable = dataRecieved.showResponsable || dataRecieved.showResponsable === null ? dataRecieved.showResponsable : actualData.showResponsable
             actualData.notes = dataRecieved.notes ? dataRecieved.notes : actualData.notes
-            console.log("actualData : ", actualData)
+            //console.log("actualData : ", actualData)
             await actualData.save()          
             return res.status(200).send({msg : "success"})
         }catch(error){
-            console.log(error)
+            //console.log(error)
             return res.status(500).send({msg: "error_system"})
         }
         
